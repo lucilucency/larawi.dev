@@ -228,41 +228,19 @@ colors = [
 	'#b956af'
 ];
 
-// Generate a random graph, with ~30% nodes having the type "image":
-for (i = 0; i < N; i++) {
-  	g.nodes.push({
-		id: 'n' + i,
-		label: 'Node ' + i,
-		type: 'image',
-		url: urls[Math.floor(i%4)],
-		x: Math.random(),
-		y: Math.random(),
-		size: Math.random(),
-		color: colors[Math.floor(Math.random() * colors.length)]
-	});
-}
-
-// g.nodes.push({
-// 	id: 'n4',
-// 	label: 'Node 4',
-// 	type: 'image',
-// 	url: urls[3],
-// 	x: 0.8,
-// 	y: 0.1,
-// 	size: Math.random(),
-// 	color: colors[Math.floor(Math.random() * colors.length)]
-// });
-
-// g.nodes.push({
-// 	id: 'n3',
-// 	label: 'Node 3',
-// 	type: 'image',
-// 	url: urls[2],
-// 	x: 0.8,
-// 	y: 0.8,
-// 	size: Math.random(),
-// 	color: colors[Math.floor(Math.random() * colors.length)]
-// });
+	// Generate a random graph, with ~30% nodes having the type "image":
+	for (i = 0; i < N; i++) {
+	  	g.nodes.push({
+			id: 'n' + i,
+			label: 'Node ' + i,
+			type: 'image',
+			url: urls[Math.floor(i%4)],
+			x: Math.random(),
+			y: Math.random(),
+			size: Math.random(),
+			color: colors[Math.floor(Math.random() * colors.length)]
+		});
+	}
 
 // for (i = 0; i < E; i++) {
 //   	g.edges.push({
