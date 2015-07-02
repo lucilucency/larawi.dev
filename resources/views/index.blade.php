@@ -1,2 +1,2 @@
-@extends("layouts.layout2")
+@extends("layouts.sigma")
 
