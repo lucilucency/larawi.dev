@@ -3,7 +3,10 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
+use App\Model\User;
+use DB;
+
 
 class PagesController extends Controller {
 
@@ -14,7 +17,9 @@ class PagesController extends Controller {
 	 */
 	public function index()
 	{
-		return view('pages.index');
+        // $db = User::find(1, array("user_id", "user_name"));
+		$db = User::all()->toArray();
+		return view('pages.index')->with(compact("db", "tmp"));
 	}
 
 	/**
@@ -82,7 +87,7 @@ class PagesController extends Controller {
 	}
 
 	public function pages($slug) {
-        $name = "<span style='color: red'>lucilucency</span>";
+        $name = "lucilucency";
         $gender = "1";
 
 		return view('pages.'.$slug)->with(compact("name", "gender"));

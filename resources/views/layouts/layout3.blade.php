@@ -15,6 +15,8 @@
     <script src="{{asset('/js/jquery/jquery-2.1.4.min.js')}}"></script>
 	<script src="{{asset('/js/raphael/raphael.js')}}"></script>
     <script src="{{asset('/js/raphael/raphaeljs-infobox.js')}}"></script>
+    <script src="{{asset('/js/jquery/underscore.js')}}"></script>
+
 </head>
 <body>
 	<nav class="navbar navbar-default">

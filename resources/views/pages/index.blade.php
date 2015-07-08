@@ -20,14 +20,39 @@
         padding: 20px;
     }
 </style>
-<p>Drag shapes around.</p>
+<p>
+<?php
+    echo '<pre>';
+    // $tmp = json_encode($db["attributes"]);
+    var_dump($db);
+    echo '</pre>';
+?>
+</p>
+
 <div id="holder"></div>
 
+<script type="text/template" class="map-view-el-tp">
+    <div class="user-avt">
+        <%= user_name %>
+    </div>
+    <div class="user-info">
+        <%= user_birthday %>
+    </div>
+</script>
+
 <script>
+var mapViewEl = _.template($("script.map-view-el-tp").html());
+var mapviewElDt = {
+    user_birthday: "11/11/1991",
+    user_name: "Leonardo De Carprio"
+};
+
 var el;
+// var d = <?php //echo $tmp ?>;
+// d =
 $(document).ready(function(){
     var r = Raphael("holder", $(window).width(), $(window).height());
-    window.abc= r;
+
 
     var dragger = function (x, y, e) {
             this.ox = this.type == "rect" ? this.attr("x") : this.attr("cx");
@@ -57,24 +82,26 @@ $(document).ready(function(){
 
         connections = [];
 
-    var shapes = [  r.rect(100, 300, 60, 40, 2),
-                    r.rect(600, 600, 60, 40, 2),
-                    r.ellipse(900, 600, 100, 100)
-                    ];
+    
 
-    for (var i = 0, ii = shapes.length; i < ii; i++) {
-        var color = Raphael.getColor();
-        shapes[i].attr({fill: color, stroke: color, "fill-opacity": 0, "stroke-width": 2, cursor: "move"});
-        shapes[i].drag(move, dragger, up);
-    }
-
-   var infobox = new Infobox(r, {name: "xxx", width:250, height:250, x:600, y:100, drag:true}, {fill: color, stroke: color, "fill-opacity": 0, "stroke-width": 2, cursor: "move"});
-   infobox.div.html('<p>This is some crazy content that goes inside of that box that will wrap around.</p>');
+   var infobox = new Infobox(r, {name: "xxx", width:250, height:250, x:600, y:100, drag:true}, {fill: "green", stroke: "green", "fill-opacity": 0, "stroke-width": 2, cursor: "move"});
+   infobox.div.html(mapViewEl(mapviewElDt));
    infobox.container.drag(move, dragger, up);
 
-   connections.push(r.connection(infobox.container, shapes[0], "green"));
-   connections.push(r.connection(infobox.container, shapes[1], "green"));
-   connections.push(r.connection(infobox.container, shapes[2], "green"));
+   // var shapes = [  r.rect(100, 300, 60, 40, 2),
+   //                  r.rect(600, 600, 60, 40, 2),
+   //                  r.ellipse(900, 600, 100, 100)
+   //                  ];
+
+   //  for (var i = 0, ii = shapes.length; i < ii; i++) {
+   //      var color = Raphael.getColor();
+   //      shapes[i].attr({fill: color, stroke: color, "fill-opacity": 0, "stroke-width": 2, cursor: "move"});
+   //      shapes[i].drag(move, dragger, up);
+   //  }
+
+   // connections.push(r.connection(infobox.container, shapes[0], "green"));
+   // connections.push(r.connection(infobox.container, shapes[1], "green"));
+   // connections.push(r.connection(infobox.container, shapes[2], "green"));
 });
 </script>
 @stop

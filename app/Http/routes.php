@@ -11,6 +11,8 @@
 |
 */
 
+use App\User;
+
 Route::get('/', 'PagesController@index');
 
 Route::get('home', 'HomeController@index');
@@ -21,3 +23,7 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+get('users', function() {
+    return User::all();
+});
