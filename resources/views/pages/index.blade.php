@@ -19,12 +19,22 @@
         height: 0;
         padding: 20px;
     }
+
+    .img-cover {
+        width: 200px;
+        height: 200px; 
+        overflow: hidden;
+    }
+
+    .img-cover img {
+        width: 200px;
+    }
+
 </style>
 <p>
 <?php
     echo '<pre>';
-    // $tmp = json_encode($db["attributes"]);
-    var_dump($db);
+    var_dump($userRelative);
     echo '</pre>';
 ?>
 </p>
@@ -32,27 +42,37 @@
 <div id="holder"></div>
 
 <script type="text/template" class="map-view-el-tp">
-    <div class="user-avt">
-        <%= user_name %>
+    <div class="user-avt text-center">
+        <div class="img-cover text-center">
+            <img src='<%= user_avatar %>'>
+        </div>
     </div>
-    <div class="user-info">
-        <%= user_birthday %>
+    <div class="user-info text-center">
+        <a class="user-name" href="{{asset('/user/')}}/<%= user_name %>"><%= user_name %></a>
+        <p class="user-birthday"><%= user_birthday %></p>
     </div>
 </script>
 
 <script>
-var mapViewEl = _.template($("script.map-view-el-tp").html());
+var DEFAULT_WIDTH = 250,
+    DEFAULT_HEIGHT = 300;
+
+var recipe = _.template($("script.map-view-el-tp").html());
 var mapviewElDt = {
+    user_avatar: "{{asset('/img/1.jpg')}}",
     user_birthday: "11/11/1991",
     user_name: "Leonardo De Carprio"
 };
 
-var el;
-// var d = <?php //echo $tmp ?>;
-// d =
-$(document).ready(function(){
-    var r = Raphael("holder", $(window).width(), $(window).height());
+var maxWidth = $(window).width(), maxHeight = $(window).height();
 
+var el;
+var u_arr = <?php echo !empty($user) ? json_encode($user) : "[]" ?>;
+var ur_arr = <?php echo !empty($userRelative) ? json_encode($userRelative) : "[]" ?>;
+console.log(ur_arr);
+
+$(document).ready(function(){
+    var r = Raphael("holder", maxWidth, maxHeight);
 
     var dragger = function (x, y, e) {
             this.ox = this.type == "rect" ? this.attr("x") : this.attr("cx");
@@ -79,30 +99,55 @@ $(document).ready(function(){
             }
 
         },
-
+        uBox = [], uRank = [],
         connections = [];
 
-    
+    for (i = 0; i < u_arr.length; i++) {
+        if (typeof (uRank[u_arr[i].user_rank]) == "undefined") { uRank[u_arr[i].user_rank] = []; }
+        uRank[u_arr[i].user_rank].push(u_arr[i]);
+    }
+    console.log(uRank);
+    window.abc= uRank;
 
-   var infobox = new Infobox(r, {name: "xxx", width:250, height:250, x:600, y:100, drag:true}, {fill: "green", stroke: "green", "fill-opacity": 0, "stroke-width": 2, cursor: "move"});
-   infobox.div.html(mapViewEl(mapviewElDt));
-   infobox.container.drag(move, dragger, up);
+    var k = 0;
+    for (i = 0; i < uRank.length; i++) {
+        if (typeof uRank[i] != "undefined") {
+            maxWidth = Math.max(maxWidth, uRank[i].length * (DEFAULT_WIDTH + 40));
+            maxHeight = Math.max(maxHeight, (i+1) * (DEFAULT_HEIGHT + 40));
 
-   // var shapes = [  r.rect(100, 300, 60, 40, 2),
-   //                  r.rect(600, 600, 60, 40, 2),
-   //                  r.ellipse(900, 600, 100, 100)
-   //                  ];
+            bx = maxWidth / 2;
+            // by = max
 
-   //  for (var i = 0, ii = shapes.length; i < ii; i++) {
-   //      var color = Raphael.getColor();
-   //      shapes[i].attr({fill: color, stroke: color, "fill-opacity": 0, "stroke-width": 2, cursor: "move"});
-   //      shapes[i].drag(move, dragger, up);
-   //  }
+            for (j = 0; j < uRank[i].length; j++) {
+                color = Raphael.getColor();
+                tmp = new Infobox(r, {
+                    name: "user" + uRank[i][j].user_id,
+                    x: 600,
+                    y: 100
+                }, {fill: "green", stroke: color, "fill-opacity": 0, "stroke-width": 2, cursor: "move"});
+                tmp.div.html(recipe({
+                    user_name: uRank[i][j].user_name,
+                    user_avatar: uRank[i][j].user_avatar,
+                    user_birthday: uRank[i][j].user_birthday
+                }));
+                tmp.container.drag(move, dragger, up);
+                uBox[k] = tmp;
+                k++;
+            }
+        }
+    }
 
-   // connections.push(r.connection(infobox.container, shapes[0], "green"));
-   // connections.push(r.connection(infobox.container, shapes[1], "green"));
-   // connections.push(r.connection(infobox.container, shapes[2], "green"));
+    for (i = 0; i < ur_arr.length; i++) {
+        var src = $.grep(uBox, function(e){ return e.name == "user" + ur_arr[i].user_id1; });
+        var des = $.grep(uBox, function(e){ return e.name == "user" + ur_arr[i].user_id2; });
+        connections.push(r.connection(src[0].container, des[0].container, "green"));
+    }
+
+
 });
+
+
+
 </script>
 @stop
 

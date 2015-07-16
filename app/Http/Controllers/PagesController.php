@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 //use Illuminate\Http\Request;
 use App\Model\User;
+use App\Model\UserRelative;
 use DB;
 
 
@@ -17,9 +18,9 @@ class PagesController extends Controller {
 	 */
 	public function index()
 	{
-        // $db = User::find(1, array("user_id", "user_name"));
-		$db = User::all()->toArray();
-		return view('pages.index')->with(compact("db", "tmp"));
+		$user = User::all()->toArray();
+		$userRelative = UserRelative::all()->toArray();
+		return view('pages.index')->with(compact("user", "userRelative"));
 	}
 
 	/**
