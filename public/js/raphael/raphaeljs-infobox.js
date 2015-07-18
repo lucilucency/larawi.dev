@@ -66,8 +66,8 @@ function Infobox(r, options, attrs) {
 	this.x = options.x || 0;
 	this.y = options.y || 0;
 	this.b = options.b || 0;
-	this.width = options.width || DEFAULT_WIDTH;
-	this.height = options.height || DEFAULT_HEIGHT;
+	this.width = options.width || BOX_WIDTH;
+	this.height = options.height || BOX_HEIGHT;
 	this.rounding = options.rounding || 0;
 	this.show_border = options.with_border || true;
 

@@ -8,6 +8,9 @@
 	<title><?php echo isset($pageTitle) ? $pageTitle : "Luci.dev"?></title>
 
 	<link href="{{asset('/css/app.css')}}" rel="stylesheet">
+	<link href="{{asset('/css/bootstrap.css')}}" rel="stylesheet">
+	<link href="{{asset('/css/bootstrap.custom.css')}}" rel="stylesheet">
+	<link href="{{asset('/css/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 
